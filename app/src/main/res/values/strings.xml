@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">MyGitHubSearch</string>
-    <string name="enter_keyword">검색어를 입력하세요.</string>
+    <string name="enter_keyword">검색어 입력</string>
 </resources>

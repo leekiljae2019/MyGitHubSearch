@@ -5,10 +5,13 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import com.afterwork.mygithubsearch.common.Util
 import com.afterwork.mygithubsearch.model.ISearchDataModel
 import com.afterwork.mygithubsearch.model.data.SearchData
+import com.afterwork.mygithubsearch.paging.RepoPagingDataSourceFactory
 import com.afterwork.mygithubsearch.viewmodel.base.BaseViewModel
 import com.afterwork.mygithubsearch.viewmodel.base.NotNullMutableLiveData
 import com.afterwork.mygithubsearch.viewmodel.base.RepoListAdapter
@@ -24,12 +27,31 @@ class MainViewModel(private val model: ISearchDataModel) : BaseViewModel(){
 
     val keyword : NotNullMutableLiveData<String> = NotNullMutableLiveData("")
 
+    private val _result : NotNullMutableLiveData<String> = NotNullMutableLiveData("")
+    val result : LiveData<String> get() = _result
+
     private val _refreshing : NotNullMutableLiveData<Boolean> = NotNullMutableLiveData(false)
     val refreshing : LiveData<Boolean> get() = _refreshing
 
     private val _items: NotNullMutableLiveData<List<SearchData>> = NotNullMutableLiveData<List<SearchData>>(mutableListOf())
     val items: LiveData<List<SearchData>> get() = _items
 
+    val pagedListBuilder: LivePagedListBuilder<Int, SearchData>
+    val factory: RepoPagingDataSourceFactory
+
+    val pageConfig = PagedList.Config.Builder()
+        .setEnablePlaceholders(false)
+        .setInitialLoadSizeHint(30)
+        .setPrefetchDistance(4)
+        .setPageSize(30)
+        .build()
+
+    init {
+        factory = RepoPagingDataSourceFactory(keyword, model, {
+            _result.value = keyword.value + " 검색 결과: ${it}"
+        })
+        pagedListBuilder = LivePagedListBuilder<Int, SearchData>(factory, pageConfig)
+    }
 
     fun onRefreshing(){
         Log.d(TAG, "onRefreshing()")
@@ -51,27 +73,14 @@ class MainViewModel(private val model: ISearchDataModel) : BaseViewModel(){
     }
 
     fun search(){
-        addDisposable(model.getSearch(keyword.value)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                it.run {
-                    Log.d(TAG, "Successed")
-                    _refreshing.postValue(false)
-
-                    _items.postValue(it.items)
-
-                    Log.d(TAG, "total count: ${it.total_count}")
-                    for(item in it.items){
-                        Log.d(TAG, "id: ${item.id}, stars: ${item.stargazers_count}, owner: ${item.owner.id}")
-                    }
-                }
-            }, {
-                Log.d(TAG, "Failed: ${it.localizedMessage}")
-                _refreshing.postValue(false)
-            }))
+        factory.reset()
     }
 
+    fun load() = pagedListBuilder.setInitialLoadKey(1).build()
+
+    fun loaded(){
+        _refreshing.value = false
+    }
 }
 
 @BindingAdapter("avatarImage")
@@ -82,21 +91,4 @@ fun avatarImage(view: SimpleDraweeView, url: String){
 @BindingAdapter(value = ["starCount", "forkCount", "openIssueCount"], requireAll = true)
 fun countText(view: TextView, stars: Int, forks: Int, issues: Int){
     view.text = "Star: ${Util.prettyNumber(stars)}, Fork: ${Util.prettyNumber(forks)}, Issue: ${Util.prettyNumber(issues)}"
-}
-
-@BindingAdapter(value = ["viewModel", "repoItems"], requireAll = true)
-fun setRecyclerViewAdapter(view: RecyclerView, vm: MainViewModel, items: List<SearchData>) {
-    Log.d("BindingAdapterEx", "mainViewAdapter")
-
-    view.adapter?.run {
-        if (this is RepoListAdapter) {
-            Log.d("BindingAdapterEx", "item size: ${items.size}")
-            this.items = items
-            this.notifyDataSetChanged()
-        }
-    } ?: run {
-        Log.d("BindingAdapterEx", "ScrollListenerAdapter create")
-        RepoListAdapter(items).apply { view.adapter = this }
-    }
-
 }
