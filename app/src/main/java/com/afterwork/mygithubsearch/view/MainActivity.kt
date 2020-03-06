@@ -1,5 +1,6 @@
 package com.afterwork.mygithubsearch.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
@@ -30,6 +31,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
         list.adapter = RepoPagingAdapter({
             Log.d(TAG, "onItemClick(${it})")
+            var intent = Intent(this@MainActivity, RepoWebActivity::class.java)
+            intent.putExtra(RepoWebActivity.LINK, it)
+            startActivity(intent)
         })
 
         binding.vmMain?.load()?.observe(this, Observer {

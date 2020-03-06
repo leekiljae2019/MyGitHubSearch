@@ -29,7 +29,9 @@ class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val
             .subscribe({
                 it.run {
                     Log.d(TAG, "Successed(total: $total_count, pageSize: ${items.size})")
-//                    for(iteㄴ
+//                    for(item in items){
+//                        Log.d(TAG, "id: ${item.id}, name: ${item.full_name}")
+//                    }
                     listener.invoke(total_count)
                     callback.onResult(items, null, (2))
                 }

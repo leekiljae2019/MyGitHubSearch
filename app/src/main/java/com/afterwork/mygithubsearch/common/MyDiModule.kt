@@ -4,6 +4,7 @@ import com.afterwork.mygithubsearch.model.ISearchApi
 import com.afterwork.mygithubsearch.model.ISearchDataModel
 import com.afterwork.mygithubsearch.model.SearchDataModelImpl
 import com.afterwork.mygithubsearch.viewmodel.MainViewModel
+import com.afterwork.mygithubsearch.viewmodel.RepoWebViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -23,6 +24,10 @@ var modelPart = module {
 var viewModelPart = module {
     viewModel {
         MainViewModel(get())
+    }
+
+    viewModel {(linkUrl: String) ->
+        RepoWebViewModel(linkUrl)
     }
 }
 
