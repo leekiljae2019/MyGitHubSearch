@@ -17,11 +17,10 @@ class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val
         params: LoadInitialParams<Int>,
         callback: LoadInitialCallback<Int, RepoData>
     ) {
-        Log.d(TAG, "loadInitial(pageKey: 1, loadSize: ${params.requestedLoadSize})")
-
         if(keyword.isNullOrEmpty()){
             return
         }
+        Log.d(TAG, "loadInitial(pageKey: 1, loadSize: ${params.requestedLoadSize})")
 
         model.getSearch(keyword, 1, params.requestedLoadSize)
             .subscribeOn(Schedulers.io())
@@ -29,9 +28,6 @@ class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val
             .subscribe({
                 it.run {
                     Log.d(TAG, "Successed(total: $total_count, pageSize: ${items.size})")
-//                    for(item in items){
-//                        Log.d(TAG, "id: ${item.id}, name: ${item.full_name}")
-//                    }
                     listener.invoke(total_count)
                     callback.onResult(items, null, (2))
                 }
@@ -49,9 +45,6 @@ class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val
             .subscribe({
                 it.run {
                     Log.d(TAG, "Successed(total: $total_count, pageSize: ${items.size})")
-//                    for(item in items){
-//                        Log.d(TAG, "id: ${item.id}, name: ${item.full_name}")
-//                    }
                     listener.invoke(total_count)
                     callback.onResult(items, (params.key+1))
                 }

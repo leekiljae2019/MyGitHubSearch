@@ -6,20 +6,26 @@
         <variable
             name="item"
             type="com.afterwork.mygithubsearch.model.data.RepoData" />
+        <variable
+            name="util"
+            type="com.afterwork.mygithubsearch.common.Util" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        android:padding="2dp">
+        android:padding="20dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/iv_owner"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:layout_gravity="center_vertical"
                 android:background="@color/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
@@ -30,31 +36,64 @@
                 android:id="@+id/tv_branch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:background="@color/gray"
-                android:text="@{item.default_branch}"
-                android:textColor="@color/colorPrimaryDark"
+                android:layout_margin="4dp"
+                android:background="@drawable/rounded_dark_corner"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:gravity="center"
+                android:tag="Branch"
+                defaultBranch="@{item.default_branch}"
+                android:textColor="@color/white"
                 android:textSize="12dp"
-                app:layout_constraintEnd_toStartOf="@+id/tv_counts"
                 app:layout_constraintStart_toEndOf="@+id/iv_owner"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_counts"
-                forkCount="@{item.forks_count}"
-                openIssueCount="@{item.open_issues_count}"
+                android:id="@+id/tv_stars"
                 starCount="@{item.stargazers_count}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:gravity="right"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:background="@drawable/rounded_orange_corner"
+                android:tag="Star"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12dp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_watchs"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_watchs"
+                watchCount="@{item.watchers_count}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:background="@drawable/rounded_orange_corner"
+                android:tag="Watch"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="12dp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_issues"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_issues"
+                openIssueCount="@{item.open_issues_count}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginRight="2dp"
+                android:gravity="center"
+                android:background="@drawable/rounded_orange_corner"
+                android:tag="Issue"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_branch"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -76,14 +115,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="4dp"
                 android:layout_marginLeft="4dp"
+                android:layout_marginBottom="4dp"
                 android:gravity="left"
                 android:text="@{item.description}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_owner"
-                app:layout_constraintTop_toBottomOf="@+id/tv_fullname" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_owner" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

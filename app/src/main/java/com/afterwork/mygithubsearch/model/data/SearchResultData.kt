@@ -7,7 +7,7 @@ package com.afterwork.mygithubsearch.model.data
   "full_name": "d3/d3",
   "html_url": "https://github.com/d3/d3",
   "stargazers_count": 90222,
-  "forks": 21854,
+  "watchers_count": 21854,
   "default_branch": "master",
   "open_issues_count": 4,
   "description": "Bring data to life with SVG, Canvas and HTML. :bar_chart::chart_with_upwards_trend::tada:",

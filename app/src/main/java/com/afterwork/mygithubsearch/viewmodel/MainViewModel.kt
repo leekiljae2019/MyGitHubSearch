@@ -16,6 +16,8 @@ import com.afterwork.mygithubsearch.viewmodel.base.BaseViewModel
 import com.afterwork.mygithubsearch.viewmodel.base.NotNullMutableLiveData
 import com.facebook.drawee.view.SimpleDraweeView
 
+
+
 class MainViewModel(private val model: ISearchDataModel) : BaseViewModel(){
 
     companion object{
@@ -80,7 +82,16 @@ fun avatarImage(view: SimpleDraweeView, url: String){
     view.setImageURI(url)
 }
 
-@BindingAdapter(value = ["starCount", "forkCount", "openIssueCount"], requireAll = true)
-fun countText(view: TextView, stars: Int, forks: Int, issues: Int){
-    view.text = "Star: ${Util.prettyNumber(stars)}, Fork: ${Util.prettyNumber(forks)}, Issue: ${Util.prettyNumber(issues)}"
+@BindingAdapter(value = ["defaultBranch", "starCount", "watchCount", "openIssueCount"], requireAll = false)
+fun countText(view: TextView, branch: String?, stars: Int?, watchs: Int?, issues: Int?){
+
+    if(branch != null){
+        view.text = "${view.tag.toString()}: ${branch}"
+    }else if(stars != null){
+        view.text = Util.prettyNumber(view.tag.toString(), stars)
+    } else if(watchs != null){
+        view.text = Util.prettyNumber(view.tag.toString(), watchs)
+    } else if(issues != null){
+        view.text = Util.prettyNumber(view.tag.toString(), issues)
+    }
 }
