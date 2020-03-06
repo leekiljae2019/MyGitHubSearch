@@ -1,23 +1,20 @@
 package com.afterwork.mygithubsearch.viewmodel
 
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import androidx.recyclerview.widget.RecyclerView
 import com.afterwork.mygithubsearch.common.Util
 import com.afterwork.mygithubsearch.model.ISearchDataModel
-import com.afterwork.mygithubsearch.model.data.SearchData
+import com.afterwork.mygithubsearch.model.data.RepoData
 import com.afterwork.mygithubsearch.paging.RepoPagingDataSourceFactory
 import com.afterwork.mygithubsearch.viewmodel.base.BaseViewModel
 import com.afterwork.mygithubsearch.viewmodel.base.NotNullMutableLiveData
-import com.afterwork.mygithubsearch.viewmodel.base.RepoListAdapter
 import com.facebook.drawee.view.SimpleDraweeView
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class MainViewModel(private val model: ISearchDataModel) : BaseViewModel(){
 
@@ -33,10 +30,7 @@ class MainViewModel(private val model: ISearchDataModel) : BaseViewModel(){
     private val _refreshing : NotNullMutableLiveData<Boolean> = NotNullMutableLiveData(false)
     val refreshing : LiveData<Boolean> get() = _refreshing
 
-    private val _items: NotNullMutableLiveData<List<SearchData>> = NotNullMutableLiveData<List<SearchData>>(mutableListOf())
-    val items: LiveData<List<SearchData>> get() = _items
-
-    val pagedListBuilder: LivePagedListBuilder<Int, SearchData>
+    val pagedListBuilder: LivePagedListBuilder<Int, RepoData>
     val factory: RepoPagingDataSourceFactory
 
     val pageConfig = PagedList.Config.Builder()
@@ -49,8 +43,9 @@ class MainViewModel(private val model: ISearchDataModel) : BaseViewModel(){
     init {
         factory = RepoPagingDataSourceFactory(keyword, model, {
             _result.value = keyword.value + " 검색 결과: ${it}"
+            _refreshing.value = false
         })
-        pagedListBuilder = LivePagedListBuilder<Int, SearchData>(factory, pageConfig)
+        pagedListBuilder = LivePagedListBuilder<Int, RepoData>(factory, pageConfig)
     }
 
     fun onRefreshing(){
@@ -62,7 +57,7 @@ class MainViewModel(private val model: ISearchDataModel) : BaseViewModel(){
         }
     }
 
-    fun editorAction(actionId: Int): Boolean{
+    fun editorAction(view: View, actionId: Int): Boolean{
         Log.d(TAG, "actionSearch($actionId, ${keyword.value})")
         if(EditorInfo.IME_ACTION_SEARCH == actionId && keyword.value.isEmpty() == false){
             _refreshing.value = true
@@ -78,9 +73,6 @@ class MainViewModel(private val model: ISearchDataModel) : BaseViewModel(){
 
     fun load() = pagedListBuilder.setInitialLoadKey(1).build()
 
-    fun loaded(){
-        _refreshing.value = false
-    }
 }
 
 @BindingAdapter("avatarImage")

@@ -4,29 +4,31 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.afterwork.mygithubsearch.R
 import com.afterwork.mygithubsearch.databinding.ItemRepositoryBinding
-import com.afterwork.mygithubsearch.model.data.SearchData
-import com.afterwork.mygithubsearch.viewmodel.base.BindingViewHolder
+import com.afterwork.mygithubsearch.model.data.RepoData
 
-class RepoPagingAdapter (val onClickListener: (String)-> Unit) : PagedListAdapter<SearchData, RepoPagingAdapter.MainViewHolder>(
+class RepoPagingAdapter (val onClickListener: (String)-> Unit) : PagedListAdapter<RepoData, RepoPagingAdapter.MainViewHolder>(
     DIFF_CALLBACK
 ){
 
     companion object{
         val TAG = "RepoPagingAdapter"
 
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<SearchData>() {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<RepoData>() {
             // The ID property identifies when items are the same.
-            override fun areItemsTheSame(oldItem: SearchData, newItem: SearchData) =
+            override fun areItemsTheSame(oldItem: RepoData, newItem: RepoData) =
                 oldItem.id == newItem.id
 
             // If you use the "==" operator, make sure that the object implements
             // .equals(). Alternatively, write custom data comparison logic here.
             override fun areContentsTheSame(
-                oldItem: SearchData, newItem: SearchData) = oldItem == newItem
+                oldItem: RepoData, newItem: RepoData) = oldItem == newItem
         }
 
     }
@@ -51,4 +53,8 @@ class RepoPagingAdapter (val onClickListener: (String)-> Unit) : PagedListAdapte
             onClickListener.invoke(getItem(position)?.html_url?:"")
         }
     }
+}
+
+abstract class BindingViewHolder<out T: ViewDataBinding>(_view: View): RecyclerView.ViewHolder(_view){
+    val binding: T = DataBindingUtil.bind(_view)!!
 }

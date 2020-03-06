@@ -3,11 +3,11 @@ package com.afterwork.mygithubsearch.paging
 import android.util.Log
 import androidx.paging.PageKeyedDataSource
 import com.afterwork.mygithubsearch.model.ISearchDataModel
-import com.afterwork.mygithubsearch.model.data.SearchData
+import com.afterwork.mygithubsearch.model.data.RepoData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val listener: (Int)->Unit): PageKeyedDataSource<Int, SearchData>() {
+class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val listener: (Int)->Unit): PageKeyedDataSource<Int, RepoData>() {
 
     companion object {
         val TAG = "RepoPagingDataSource"
@@ -15,7 +15,7 @@ class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
-        callback: LoadInitialCallback<Int, SearchData>
+        callback: LoadInitialCallback<Int, RepoData>
     ) {
         Log.d(TAG, "loadInitial(pageKey: 1, loadSize: ${params.requestedLoadSize})")
 
@@ -40,7 +40,7 @@ class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val
             })
     }
 
-    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, SearchData>) {
+    override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, RepoData>) {
         Log.d(TAG, "loadAfter(pageKey: ${params.key}, loadSize: ${params.requestedLoadSize})")
 
         model.getSearch(keyword, params.key, params.requestedLoadSize)
@@ -60,7 +60,7 @@ class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val
             })
     }
 
-    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, SearchData>) {
+    override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, RepoData>) {
         Log.d(TAG, "loadBefore(pageKey: ${params.key}, loadSize: ${params.requestedLoadSize})")
     }
 

@@ -5,7 +5,7 @@
     <data>
         <variable
             name="item"
-            type="com.afterwork.mygithubsearch.model.data.SearchData" />
+            type="com.afterwork.mygithubsearch.model.data.RepoData" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

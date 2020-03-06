@@ -19,4 +19,4 @@ package com.afterwork.mygithubsearch.model.data
  */
 
 data class SearchResultData(val total_count: Int,
-                            val items: List<SearchData>)
+                            val items: List<RepoData>)

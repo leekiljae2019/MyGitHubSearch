@@ -15,7 +15,7 @@ package com.afterwork.mygithubsearch.model.data
   }
  */
 
-data class SearchData(val id: Int,
+data class RepoData(val id: Int,
                       val full_name: String,
                       val html_url: String,
                       val stargazers_count: Int,
