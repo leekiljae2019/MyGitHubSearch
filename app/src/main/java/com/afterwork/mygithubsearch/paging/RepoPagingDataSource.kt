@@ -22,7 +22,7 @@ class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val
         }
         Log.d(TAG, "loadInitial(pageKey: 1, loadSize: ${params.requestedLoadSize})")
 
-        model.getSearch(keyword, 1, params.requestedLoadSize)
+        model.getSearchV2(keyword, 1, params.requestedLoadSize)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -39,7 +39,7 @@ class RepoPagingDataSource(val keyword: String, val model: ISearchDataModel, val
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, RepoData>) {
         Log.d(TAG, "loadAfter(pageKey: ${params.key}, loadSize: ${params.requestedLoadSize})")
 
-        model.getSearch(keyword, params.key, params.requestedLoadSize)
+        model.getSearchV2(keyword, params.key, params.requestedLoadSize)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({

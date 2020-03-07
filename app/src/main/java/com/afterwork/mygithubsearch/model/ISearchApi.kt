@@ -14,4 +14,7 @@ interface ISearchApi{
                   @Query("order") order: String,
                   @Query("page") page: Int,
                   @Query("per_page") per_page: Int): Single<SearchResultData>
+
+    @GET
+    fun getSearchV2(@Url url: String): Single<SearchResultData>
 }

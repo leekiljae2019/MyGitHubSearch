@@ -101,7 +101,7 @@ fun countText(view: TextView, branch: String?, stars: Int?, watchs: Int?, issues
 }
 
 @BindingAdapter(value = ["highlightText", "keyword"], requireAll = true)
-fun textHighlight(view: TextView, strs: String, keyword: String){
+fun textHighlight(view: TextView, strs: String?, keyword: String?){
     if(strs.isNullOrEmpty() == true || keyword.isNullOrEmpty() == true) return
 
     val startIndex = strs.indexOf(keyword)
