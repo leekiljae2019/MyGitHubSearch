@@ -7,6 +7,9 @@
             name="item"
             type="com.afterwork.mygithubsearch.model.data.RepoData" />
         <variable
+            name="vmMain"
+            type="com.afterwork.mygithubsearch.viewmodel.MainViewModel" />
+        <variable
             name="util"
             type="com.afterwork.mygithubsearch.common.Util" />
     </data>
@@ -119,9 +122,11 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginBottom="4dp"
                 android:gravity="left"
-                android:text="@{item.description}"
+                highlightText="@{item.description}"
+                keyword="@{vmMain.keyword}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="12dp"
+                android:bufferType="spannable"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_owner" />

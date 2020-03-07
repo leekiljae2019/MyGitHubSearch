@@ -14,6 +14,7 @@ import com.afterwork.mygithubsearch.R
 import com.afterwork.mygithubsearch.databinding.ActivityMainBinding
 import com.afterwork.mygithubsearch.paging.RepoPagingAdapter
 import com.afterwork.mygithubsearch.view.base.BaseActivity
+import com.afterwork.mygithubsearch.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -35,12 +36,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         binding.vmMain = getViewModel()
         binding.lifecycleOwner = this
 
-        list.adapter = RepoPagingAdapter {
+        list.adapter = RepoPagingAdapter(binding.vmMain as MainViewModel, {
             Log.d(TAG, "onItemClick(${it})")
             var intent = Intent(this@MainActivity, RepoWebActivity::class.java)
             intent.putExtra(RepoWebActivity.LINK, it)
             startActivity(intent)
-        }
+        })
 
         binding.vmMain?.load()?.observe(this, Observer {
             Log.d(TAG, "Observe event: ${it.size}")

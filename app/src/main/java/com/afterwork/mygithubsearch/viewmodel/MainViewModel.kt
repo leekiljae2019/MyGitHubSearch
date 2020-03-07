@@ -1,5 +1,9 @@
 package com.afterwork.mygithubsearch.viewmodel
 
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -93,5 +97,23 @@ fun countText(view: TextView, branch: String?, stars: Int?, watchs: Int?, issues
         view.text = Util.prettyNumber(view.tag.toString(), watchs)
     } else if(issues != null){
         view.text = Util.prettyNumber(view.tag.toString(), issues)
+    }
+}
+
+@BindingAdapter(value = ["highlightText", "keyword"], requireAll = true)
+fun textHighlight(view: TextView, strs: String, keyword: String){
+    if(strs.isNullOrEmpty() == true || keyword.isNullOrEmpty() == true) return
+
+    val startIndex = strs.indexOf(keyword)
+    if(startIndex >= 0){
+        var ssb = SpannableStringBuilder(strs)
+        ssb.setSpan(ForegroundColorSpan(Color.MAGENTA), startIndex, (startIndex+keyword.length), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        view.text = ssb
+    }else{
+        if(keyword.last().toLowerCase() == 's'){
+            textHighlight(view, strs, keyword.substring(0, keyword.length-1))
+            return
+        }
+        view.text = strs
     }
 }

@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.afterwork.mygithubsearch.R
 import com.afterwork.mygithubsearch.databinding.ItemRepositoryBinding
 import com.afterwork.mygithubsearch.model.data.RepoData
+import com.afterwork.mygithubsearch.viewmodel.MainViewModel
 
-class RepoPagingAdapter (val onClickListener: (String)-> Unit) : PagedListAdapter<RepoData, RepoPagingAdapter.MainViewHolder>(
+class RepoPagingAdapter (val vmMain: MainViewModel, val onClickListener: (String)-> Unit) : PagedListAdapter<RepoData, RepoPagingAdapter.MainViewHolder>(
     DIFF_CALLBACK
 ){
 
@@ -49,6 +50,7 @@ class RepoPagingAdapter (val onClickListener: (String)-> Unit) : PagedListAdapte
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         Log.d(TAG, "onBindViewHolder(position: $position)")
         holder.binding.item = getItem(position)
+        holder.binding.vmMain = vmMain
         holder.itemView.setOnClickListener {
             onClickListener.invoke(getItem(position)?.html_url?:"")
         }
