@@ -9,9 +9,6 @@
         <variable
             name="vmMain"
             type="com.afterwork.mygithubsearch.viewmodel.MainViewModel" />
-        <variable
-            name="util"
-            type="com.afterwork.mygithubsearch.common.Util" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
