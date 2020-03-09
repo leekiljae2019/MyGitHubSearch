@@ -15,15 +15,15 @@ fun avatarImage(view: SimpleDraweeView, url: String){
     view.setImageURI(url)
 }
 
-@BindingAdapter(value = ["defaultBranch", "starCount", "watchCount", "openIssueCount"], requireAll = false)
-fun prefixtText(view: TextView, branch: String?, stars: Int?, watchs: Int?, issues: Int?){
+@BindingAdapter(value = ["defaultBranch", "starCount", "forkCount", "openIssueCount"], requireAll = false)
+fun prefixtText(view: TextView, branch: String?, stars: Int?, forks: Int?, issues: Int?){
 
     if(branch != null){
         view.text = "${view.tag.toString()}: ${branch}"
     }else if(stars != null){
         view.text = prettyNumber(view.tag.toString(), stars)
-    } else if(watchs != null){
-        view.text = prettyNumber(view.tag.toString(), watchs)
+    } else if(forks != null){
+        view.text = prettyNumber(view.tag.toString(), forks)
     } else if(issues != null){
         view.text = prettyNumber(view.tag.toString(), issues)
     }

@@ -61,12 +61,12 @@
                 android:tag="Star"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="12dp"
-                app:layout_constraintEnd_toStartOf="@+id/tv_watchs"
+                app:layout_constraintEnd_toStartOf="@+id/tv_forks"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_watchs"
-                watchCount="@{item.watchers_count}"
+                android:id="@+id/tv_forks"
+                forkCount="@{item.forks_count}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -74,7 +74,7 @@
                 android:layout_marginRight="2dp"
                 android:gravity="center"
                 android:background="@drawable/rounded_orange_corner"
-                android:tag="Watch"
+                android:tag="Fork"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="12dp"
                 app:layout_constraintEnd_toStartOf="@+id/tv_issues"
